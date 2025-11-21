@@ -3,7 +3,7 @@
   "build": {
     "dockerfile": "../Dockerfile"
   },
-  "forwardPorts": [6080],
+  "forwardPorts": [6080, 14500, 14501, 14502],
   "postStartCommand": "/usr/local/bin/start-desktop.sh",
   "remoteUser": "root"
 }

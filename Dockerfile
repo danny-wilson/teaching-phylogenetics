@@ -1,4 +1,4 @@
-FROM ubuntu:bionic
+FROM ubuntu:22.04
 LABEL app="Teaching Phylogenetics"
 LABEL description="Docker image for teaching phylogenetics"
 LABEL maintainer="Daniel Wilson"
@@ -67,7 +67,8 @@ RUN rm /tmp/*.tgz
 
 # Desktop and browser-accessible VNC (noVNC)
 RUN DEBIAN_FRONTEND=noninteractive apt update && \
-	apt install -y xfce4 xfce4-terminal x11vnc xvfb dbus-x11 python3 python3-pip git && \
+	apt install -y xfce4 xfce4-terminal x11vnc xvfb dbus-x11 python3 python3-pip git \
+		xpra xauth x11-utils xfonts-base iproute2 && \
 	pip3 install websockify || true
 
 RUN git clone https://github.com/novnc/noVNC.git /opt/noVNC || true
@@ -75,7 +76,8 @@ RUN git clone https://github.com/novnc/websockify /opt/noVNC/utils/websockify ||
 
 # Copy startup helper script
 COPY .devcontainer/start-desktop.sh /usr/local/bin/start-desktop.sh
-RUN chmod +x /usr/local/bin/start-desktop.sh
+COPY .devcontainer/start-xpra.sh /usr/local/bin/start-xpra.sh
+RUN chmod +x /usr/local/bin/start-desktop.sh /usr/local/bin/start-xpra.sh
 
 # Copy helper scripts and shell aliases into the image
 COPY .devcontainer/start-jalview.sh /usr/local/bin/start-jalview
@@ -86,4 +88,5 @@ RUN chmod 644 /etc/profile.d/xpra_aliases.sh || true
 
 # Default command
 WORKDIR $HOME
-CMD ["/bin/bash"]
+# Start the desktop+xpra services on container run and keep container alive
+CMD ["/bin/bash", "-c", "/usr/local/bin/start-desktop.sh && tail -f /dev/null"]
