@@ -1,0 +1,9 @@
+{
+  "name": "Teaching Phylogenetics Codespace",
+  "build": {
+    "dockerfile": "../Dockerfile"
+  },
+  "forwardPorts": [6080],
+  "postStartCommand": "/usr/local/bin/start-desktop.sh",
+  "remoteUser": "root"
+}

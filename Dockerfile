@@ -16,10 +16,10 @@ RUN apt install build-essential x11-apps default-jre wget curl git xterm firefox
 WORKDIR /tmp
 
 # BEAST
-RUN wget https://github.com/beast-dev/beast-mcmc/releases/download/v1.10.5pre1/BEASTv1.10.5pre.tgz
-RUN tar -xzvf BEASTv1.10.5pre.tgz
-RUN mv /tmp/BEASTv1.10.5pre/bin/* /usr/bin/
-RUN mv /tmp/BEASTv1.10.5pre/lib/* /usr/lib/
+RUN wget https://github.com/beast-dev/beast-mcmc/releases/download/v1.10.5pre_thorney_v0.1.2/BEASTv1.10.5pre_thorney_0.1.2.tgz
+RUN tar -xzvf BEASTv1.10.5pre_thorney_0.1.2.tgz
+RUN mv /tmp/BEASTv1.10.5pre_thorney_0.1.2/bin/* /usr/bin/
+RUN mv /tmp/BEASTv1.10.5pre_thorney_0.1.2/lib/* /usr/lib/
 # Make alias for beast -java
 RUN alias beast='/usr/bin/beast -java'
 
@@ -46,10 +46,10 @@ WORKDIR /tmp
 
 # Mafft
 RUN curl -O https://mafft.cbrc.jp/alignment/software/mafft_7.450-1_amd64.deb
-RUN dpkg -i mafft_7.450-1_amd64.deb
+#RUN dpkg -i mafft_7.450-1_amd64.deb
 
 # TempEst
-RUN wget https://github.com/beast-dev/beast-mcmc/releases/download/v1.5.3-tempest/TempEst_v1.5.3.tgz
+RUN wget https://github.com/beast-dev/Tempest/releases/download/v1.5.3/TempEst_v1.5.3.tgz
 RUN tar -xzvf TempEst_v1.5.3.tgz
 RUN mv /tmp/TempEst_v1.5.3/bin/* /usr/bin/
 RUN mv /tmp/TempEst_v1.5.3/lib/* /usr/lib/
@@ -64,6 +64,25 @@ RUN chmod +x /usr/bin/tracer
 
 # Clean up
 RUN rm /tmp/*.tgz
+
+# Desktop and browser-accessible VNC (noVNC)
+RUN DEBIAN_FRONTEND=noninteractive apt update && \
+	apt install -y xfce4 xfce4-terminal x11vnc xvfb dbus-x11 python3 python3-pip git && \
+	pip3 install websockify || true
+
+RUN git clone https://github.com/novnc/noVNC.git /opt/noVNC || true
+RUN git clone https://github.com/novnc/websockify /opt/noVNC/utils/websockify || true
+
+# Copy startup helper script
+COPY .devcontainer/start-desktop.sh /usr/local/bin/start-desktop.sh
+RUN chmod +x /usr/local/bin/start-desktop.sh
+
+# Copy helper scripts and shell aliases into the image
+COPY .devcontainer/start-jalview.sh /usr/local/bin/start-jalview
+COPY .devcontainer/start-firefox.sh /usr/local/bin/start-firefox
+COPY .devcontainer/xpra_aliases.sh /etc/profile.d/xpra_aliases.sh
+RUN chmod +x /usr/local/bin/start-jalview /usr/local/bin/start-firefox /usr/local/bin/start-desktop.sh || true
+RUN chmod 644 /etc/profile.d/xpra_aliases.sh || true
 
 # Default command
 WORKDIR $HOME
