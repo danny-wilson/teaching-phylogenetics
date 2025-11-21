@@ -10,7 +10,20 @@ ENV HOME /home
 # Install standard packages, avoiding dialogue requesting locale
 RUN apt update && apt upgrade -y
 RUN DEBIAN_FRONTEND=noninteractive apt install -y tzdata
-RUN apt install build-essential x11-apps default-jre wget curl git xterm firefox r-base r-cran-phangorn jalview -y
+RUN apt install build-essential x11-apps default-jre wget curl git xterm r-base r-cran-phangorn jalview -y
+
+# Install Firefox from Mozilla's repository to get the latest version
+RUN apt-get update && apt-get install -y --no-install-recommends \
+      software-properties-common \
+      wget \
+      gnupg \
+      ca-certificates
+RUN add-apt-repository -y ppa:mozillateam/ppa \
+  && echo "Package: firefox*; Pin: release o=LP-PPA-mozillateam; Pin-Priority: 501" \
+     | sed 's/; /\n/g' > /etc/apt/preferences.d/mozilla-firefox
+RUN apt-get update \
+  && apt-get install -y --no-install-recommends firefox \
+  && rm -rf /var/lib/apt/lists/*
 
 # Install specialist apps
 WORKDIR /tmp
@@ -69,10 +82,10 @@ RUN rm /tmp/*.tgz
 RUN DEBIAN_FRONTEND=noninteractive apt update && \
 	apt install -y xfce4 xfce4-terminal x11vnc xvfb dbus-x11 python3 python3-pip git \
 		xpra xauth x11-utils xfonts-base iproute2 && \
-	pip3 install websockify || true
+	pip3 install --no-cache-dir websockify
 
-RUN git clone https://github.com/novnc/noVNC.git /opt/noVNC || true
-RUN git clone https://github.com/novnc/websockify /opt/noVNC/utils/websockify || true
+RUN git clone https://github.com/novnc/noVNC.git /opt/noVNC
+RUN git clone https://github.com/novnc/websockify /opt/noVNC/utils/websockify
 
 # Copy startup helper script
 COPY .devcontainer/start-desktop.sh /usr/local/bin/start-desktop.sh
@@ -83,8 +96,17 @@ RUN chmod +x /usr/local/bin/start-desktop.sh /usr/local/bin/start-xpra.sh
 COPY .devcontainer/start-jalview.sh /usr/local/bin/start-jalview
 COPY .devcontainer/start-firefox.sh /usr/local/bin/start-firefox
 COPY .devcontainer/xpra_aliases.sh /etc/profile.d/xpra_aliases.sh
-RUN chmod +x /usr/local/bin/start-jalview /usr/local/bin/start-firefox /usr/local/bin/start-desktop.sh || true
-RUN chmod 644 /etc/profile.d/xpra_aliases.sh || true
+RUN chmod +x /usr/local/bin/start-jalview /usr/local/bin/start-firefox /usr/local/bin/start-desktop.sh
+RUN chmod 644 /etc/profile.d/xpra_aliases.sh
+# Copy landing page into image so it can be served without relying on build context at runtime
+COPY .devcontainer/landing /opt/landing
+# Copy landing page into image so it can be served without relying on build context at runtime
+COPY .devcontainer/start-landing.sh /usr/local/bin/start-landing.sh
+RUN chmod +x /usr/local/bin/start-landing.sh
+# Copy wrapper scripts and make them executable
+COPY .devcontainer/wrappers/start-beast.sh /usr/local/bin/start-beast.sh
+COPY .devcontainer/wrappers/firefox-wrapper.sh /usr/local/bin/firefox
+RUN chmod +x /usr/local/bin/start-beast.sh /usr/local/bin/firefox
 
 # Default command
 WORKDIR $HOME
