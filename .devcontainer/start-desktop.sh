@@ -34,8 +34,8 @@ x11vnc -display :1 -nopw -forever -shared -rfbport 5901 > /tmp/x11vnc.log 2>&1 &
 sleep 1
 
 # Start noVNC proxy
-#/opt/noVNC/utils/novnc_proxy --vnc localhost:5901 --listen 6080 > /tmp/novnc.log 2>&1 &
-#echo "Desktop started. noVNC listening on port 6080."
+/opt/noVNC/utils/novnc_proxy --vnc localhost:5901 --listen 6080 > /tmp/novnc.log 2>&1 &
+echo "Desktop started. noVNC listening on port 6080."
 
 # Also start xpra per-app HTML5 sessions (so apps can be opened in separate tabs)
 /usr/local/bin/start-xpra.sh
