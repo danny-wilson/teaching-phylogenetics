@@ -81,11 +81,20 @@ RUN rm /tmp/*.tgz
 # Desktop and browser-accessible VNC (noVNC)
 RUN apt update && \
 	apt install -y xfce4 xfce4-terminal x11vnc xvfb dbus-x11 python3 python3-pip git \
-		xpra xauth x11-utils xfonts-base iproute2 && \
+		xauth x11-utils xfonts-base iproute2 && \
 	pip3 install --no-cache-dir websockify
 
 RUN git clone https://github.com/novnc/noVNC.git /opt/noVNC
 RUN git clone https://github.com/novnc/websockify /opt/noVNC/utils/websockify
+
+# Install XPRA
+RUN apt-get update && apt-get install -y \
+      gnupg2 apt-transport-https \
+      x11-xserver-utils xserver-xorg-video-dummy \
+    && wget -qO- https://xpra.org/gpg.asc | apt-key add - \
+    && echo "deb https://xpra.org/ jammy main" > /etc/apt/sources.list.d/xpra.list \
+    && apt-get update && apt-get install -y xpra xpra-x11 \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Copy startup helper script
 COPY .devcontainer/start-desktop.sh /usr/local/bin/start-desktop.sh
