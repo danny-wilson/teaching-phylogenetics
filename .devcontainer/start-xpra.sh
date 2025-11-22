@@ -9,7 +9,7 @@ fi
 # Start per-app xpra HTML5 sessions on distinct ports so each app can be opened
 # in its own Chrome tab. Ports: 14500=terminal, 14501=jalview, 14502=beast
 
-su - $USER -c "env XDG_RUNTIME_DIR=/run/user/1000 xpra start :100 --bind-tcp=0.0.0.0:14500 --html=on --start-child=xfce4-terminal --exit-with-children >/tmp/xpra-term.log 2>&1 &"
+su - $USER -c "env XDG_RUNTIME_DIR=/run/user/1000 xpra start :100 --bind-tcp=0.0.0.0:14500 --html=on --start-child=xfce4-terminal --exit-with-children --background=none >/tmp/xpra-term.log 2>&1 &"
 sleep 0.5
 su - $USER -c "env XDG_RUNTIME_DIR=/run/user/1000 xpra start :101 --bind-tcp=0.0.0.0:14501 --html=on --start-child=jalview --exit-with-children >/tmp/xpra-jalview.log 2>&1 &"
 sleep 0.5

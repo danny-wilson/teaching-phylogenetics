@@ -8,12 +8,12 @@ LABEL version="November 2025"
 ENV HOME /home
 
 # Install standard packages, avoiding dialogue requesting locale
-RUN apt update && apt upgrade -y
-RUN DEBIAN_FRONTEND=noninteractive apt install -y tzdata
-RUN apt install build-essential x11-apps default-jre wget curl git xterm r-base r-cran-phangorn jalview -y
+RUN apt-get update && apt-get upgrade -y
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y tzdata
+RUN apt-get install -y build-essential x11-apps default-jre wget curl git xterm r-base r-cran-phangorn jalview tini
 
 # Install Firefox from Mozilla's repository to get the latest version
-RUN apt-get update && apt-get install -y --no-install-recommends \
+RUN apt-get install -y --no-install-recommends \
       software-properties-common \
       wget \
       gnupg \
@@ -79,7 +79,7 @@ RUN chmod +x /usr/bin/tracer
 RUN rm /tmp/*.tgz
 
 # Desktop and browser-accessible VNC (noVNC)
-RUN DEBIAN_FRONTEND=noninteractive apt update && \
+RUN apt update && \
 	apt install -y xfce4 xfce4-terminal x11vnc xvfb dbus-x11 python3 python3-pip git \
 		xpra xauth x11-utils xfonts-base iproute2 && \
 	pip3 install --no-cache-dir websockify
@@ -107,8 +107,11 @@ RUN chmod +x /usr/local/bin/start-landing.sh
 COPY .devcontainer/wrappers/start-beast.sh /usr/local/bin/start-beast.sh
 COPY .devcontainer/wrappers/firefox-wrapper.sh /usr/local/bin/firefox
 RUN chmod +x /usr/local/bin/start-beast.sh /usr/local/bin/firefox
+# Copy XPRA configuration file
+COPY .devcontainer/xpra.conf /etc/xpra/xpra.conf
 
 # Default command
 WORKDIR $HOME
+ENTRYPOINT ["/usr/bin/tini", "--"]
 # Start the desktop+xpra services on container run and keep container alive
-CMD ["/bin/bash", "-c", "/usr/local/bin/start-desktop.sh && tail -f /dev/null"]
+CMD ["/bin/bash", "-c", "/usr/local/bin/start-desktop.sh && exec tail -f /dev/null"]
