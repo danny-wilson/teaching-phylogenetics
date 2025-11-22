@@ -110,6 +110,10 @@ RUN chmod +x /usr/local/bin/start-beast.sh /usr/local/bin/firefox
 # Copy XPRA configuration file
 COPY .devcontainer/xpra.conf /etc/xpra/xpra.conf
 
+# Remove annoying message Xsession: unable to launch "true" X session --- "true" not found; falling back to default session.
+# Patch Xsession.d script to replace buggy command -v line with /usr/bin/which. See https://bugs.launchpad.net/ubuntu/+source/xorg/+bug/1983185
+COPY .devcontainer/20x11-common_process-args /etc/X11/Xsession.d/20x11-common_process-args
+
 # Default command
 WORKDIR $HOME
 ENTRYPOINT ["/usr/bin/tini", "--"]
