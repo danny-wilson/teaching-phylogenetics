@@ -20,16 +20,32 @@ RUN apt-get update \
     software-properties-common gnupg ca-certificates \
     xfce4 xfce4-terminal x11vnc dbus-x11 python3 python3-pip git \
 	xauth x11-utils xfonts-base iproute2 \
+    apt-transport-https x11-xserver-utils xserver-xorg-video-dummy \
   && pip3 install --no-cache-dir websockify \
   && rm -rf /var/lib/apt/lists/*
 
-# ###################################
-# # Optional: add xpra repo if you need the upstream packages
-# # (uncomment if upstream repo required)
-# ###################################
-# # RUN wget -qO- https://xpra.org/gpg.asc | apt-key add - \
-# #  && echo "deb https://xpra.org/ jammy main" >/etc/apt/sources.list.d/xpra.list \
-# #  && apt-get update && apt-get install -y --no-install-recommends xpra xpra-x11
+###################################
+#Optional: add xpra repo if you need the upstream packages
+#(uncomment if upstream repo required)
+###################################
+RUN wget -qO- https://xpra.org/gpg.asc | apt-key add - \
+  && echo "deb https://xpra.org/ jammy main" >/etc/apt/sources.list.d/xpra.list \
+  && apt-get update && apt-get install -y --no-install-recommends xpra xpra-x11 xvfb \
+  && apt-get clean && rm -rf /var/lib/apt/lists/*
+
+###################################
+# Copy configuration files
+###################################
+# Copy landing page into image so it can be served without relying on build context at runtime
+COPY ./landing /opt/landing
+# Copy XPRA configuration file
+COPY ./conf/xpra.conf /etc/xpra/xpra.conf
+# Copy XPRA aliases to profile.d and change permissions
+COPY ./conf/xpra_aliases.sh /etc/profile.d/xpra_aliases.sh
+RUN chmod 644 /etc/profile.d/xpra_aliases.sh
+# Remove annoying message Xsession: unable to launch "true" X session --- "true" not found; falling back to default session.
+# Patch Xsession.d script to replace buggy command -v line with /usr/bin/which. See https://bugs.launchpad.net/ubuntu/+source/xorg/+bug/1983185
+COPY ./conf/20x11-common_process-args /etc/X11/Xsession.d/20x11-common_process-args
 
 ###################################
 # Create a non-root user and dirs in one layer

@@ -9,14 +9,14 @@ USER=student
 SLEEPINTERVAL=10
 # Terminal
 #su - $USER -c "
-#env XDG_RUNTIME_DIR=/run/user/1000 xpra start :101 --bind-tcp=0.0.0.0:14501 --html=on --start-child=xfce4-terminal --exit-with-children >/tmp/xpra-term.log 2>&1 &
-#sleep $SLEEPINTERVAL
+env XDG_RUNTIME_DIR=/run/user/1000 xpra start :101 --bind-tcp=0.0.0.0:14501 --html=on --start-child=xfce4-terminal --exit-with-children >/tmp/xpra-term.log 2>&1 &
+sleep $SLEEPINTERVAL
 # Jalview
 #env XDG_RUNTIME_DIR=/run/user/1000 xpra start :102 --bind-tcp=0.0.0.0:14502 --html=on --start-child=/usr/local/bin/start-jalview.sh --exit-with-children >/tmp/xpra-jalview.log 2>&1 &
 #sleep $SLEEPINTERVAL
 # Firefox
-env XDG_RUNTIME_DIR=/run/user/1000 xpra start :103 --bind-tcp=0.0.0.0:14503 --html=on --start-child=/usr/local/bin/start-firefox.sh --exit-with-children >/tmp/xpra-firefox.log 2>&1 &
-sleep $SLEEPINTERVAL
+#env XDG_RUNTIME_DIR=/run/user/1000 xpra start :103 --bind-tcp=0.0.0.0:14503 --html=on --start-child=/usr/local/bin/start-firefox.sh --exit-with-children >/tmp/xpra-firefox.log 2>&1 &
+#sleep $SLEEPINTERVAL
 # Figtree
 #env XDG_RUNTIME_DIR=/run/user/1000 xpra start :104 --bind-tcp=0.0.0.0:14504 --html=on --start-child=/usr/local/bin/start-figtree.sh --exit-with-children >/tmp/xpra-figtree.log 2>&1 &
 #sleep $SLEEPINTERVAL
