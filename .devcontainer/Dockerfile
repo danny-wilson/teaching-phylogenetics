@@ -13,16 +13,24 @@ ENV TZ=UTC
 # - --no-install-recommends to slim deps
 # - combine all apt ops, then clean lists
 ###################################
+# Not yet added: r-base r-cran-phangorn jalview
 RUN apt-get update \
   && apt-get install -y --no-install-recommends \
     tzdata \
     build-essential x11-apps default-jre wget curl git xterm tini \
     software-properties-common gnupg ca-certificates \
-    xfce4 xfce4-terminal x11vnc dbus-x11 python3 python3-pip git \
+    xfce4 xfce4-terminal x11vnc dbus-x11 python3 python3-pip \
 	xauth x11-utils xfonts-base iproute2 \
     apt-transport-https x11-xserver-utils xserver-xorg-video-dummy \
   && pip3 install --no-cache-dir websockify \
   && rm -rf /var/lib/apt/lists/*
+
+# Need to add firefox
+# Need to add BEAST, Figtree, Phyml, ClonalFrameML, Mafft, TempEst, Tracer
+
+# Do I need these:
+#RUN git clone https://github.com/novnc/noVNC.git /opt/noVNC
+#RUN git clone https://github.com/novnc/websockify /opt/noVNC/utils/websockify
 
 ###################################
 #Optional: add xpra repo if you need the upstream packages
@@ -30,8 +38,9 @@ RUN apt-get update \
 ###################################
 RUN wget -qO- https://xpra.org/gpg.asc | apt-key add - \
   && echo "deb https://xpra.org/ jammy main" >/etc/apt/sources.list.d/xpra.list \
-  && apt-get update && apt-get install -y --no-install-recommends xpra xpra-x11 xvfb \
+  && apt-get update && apt-get install -y xpra xpra-x11 xvfb \
   && apt-get clean && rm -rf /var/lib/apt/lists/*
+#   && apt-get update && apt-get install -y --no-install-recommends xpra xpra-x11 xvfb \
 
 ###################################
 # Copy configuration files
@@ -59,6 +68,16 @@ RUN groupadd --gid ${USER_GID} ${USERNAME} \
  && chown -R ${USERNAME}:${USERNAME} /home/${USERNAME} /run/user/${USER_GID} \
  && chmod 1777 /tmp/.X11-unix
 
+# Ensure XDG runtime dir exists for the student (some apps expect it)
+ARG XDG_RUNTIME_DIR=/run/user/${USER_GID}
+RUN mkdir -p ${XDG_RUNTIME_DIR} && \
+  chown ${USERNAME}:${USERNAME} ${XDG_RUNTIME_DIR} && \
+  chmod 700 ${XDG_RUNTIME_DIR}
+# Allow any user to start Xvfb :1
+RUN mkdir -p /tmp/.X11-unix && chmod 1777 /tmp/.X11-unix
+
+
+# Switch to non-root user
 USER ${USERNAME}
 ENV HOME=/home/${USERNAME}
 
