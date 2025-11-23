@@ -4,6 +4,8 @@ LABEL description="Docker image for teaching phylogenetics"
 LABEL maintainer="Daniel Wilson"
 LABEL version="November 2025"
 
+# Disable prompts
+ENV DEBIAN_FRONTEND=noninteractive
 # Set home directory
 ENV HOME /home
 
