@@ -29,20 +29,20 @@ ENV TZ=UTC
 # #  && echo "deb https://xpra.org/ jammy main" >/etc/apt/sources.list.d/xpra.list \
 # #  && apt-get update && apt-get install -y --no-install-recommends xpra xpra-x11
 
-# ###################################
-# # Create a non-root user and dirs in one layer
-# ###################################
-# ARG USERNAME=student
-# ARG USER_UID=1000
-# ARG USER_GID=1000
-# RUN groupadd --gid ${USER_GID} ${USERNAME} \
-#  && useradd --uid ${USER_UID} --gid ${USER_GID} -m -s /bin/bash ${USERNAME} \
-#  && mkdir -p /tmp/.X11-unix /home/${USERNAME}/work /run/user/${USER_GID} \
-#  && chown -R ${USERNAME}:${USERNAME} /home/${USERNAME} /run/user/${USER_GID} \
-#  && chmod 1777 /tmp/.X11-unix
+###################################
+# Create a non-root user and dirs in one layer
+###################################
+ARG USERNAME=student
+ARG USER_UID=1000
+ARG USER_GID=1000
+RUN groupadd --gid ${USER_GID} ${USERNAME} \
+ && useradd --uid ${USER_UID} --gid ${USER_GID} -m -s /bin/bash ${USERNAME} \
+ && mkdir -p /tmp/.X11-unix /home/${USERNAME}/work /run/user/${USER_GID} \
+ && chown -R ${USERNAME}:${USERNAME} /home/${USERNAME} /run/user/${USER_GID} \
+ && chmod 1777 /tmp/.X11-unix
 
-# USER ${USERNAME}
-# ENV HOME=/home/${USERNAME}
+USER ${USERNAME}
+ENV HOME=/home/${USERNAME}
 
 # ###################################
 # # Copy only required runtime files and mark executable
