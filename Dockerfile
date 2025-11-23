@@ -78,50 +78,41 @@ RUN chmod +x /usr/bin/tracer
 # Clean up
 RUN rm /tmp/*.tgz
 
-# Desktop and browser-accessible VNC (noVNC)
-RUN apt update && \
-	apt install -y xfce4 xfce4-terminal x11vnc xvfb dbus-x11 python3 python3-pip git \
-		xauth x11-utils xfonts-base iproute2 && \
-	pip3 install --no-cache-dir websockify
-
-RUN git clone https://github.com/novnc/noVNC.git /opt/noVNC
-RUN git clone https://github.com/novnc/websockify /opt/noVNC/utils/websockify
-
 # Install XPRA
 RUN apt-get update && apt-get install -y \
       gnupg2 apt-transport-https \
       x11-xserver-utils xserver-xorg-video-dummy \
     && wget -qO- https://xpra.org/gpg.asc | apt-key add - \
     && echo "deb https://xpra.org/ jammy main" > /etc/apt/sources.list.d/xpra.list \
-    && apt-get update && apt-get install -y xpra xpra-x11 \
+    && apt-get update && apt-get install -y xpra xpra-x11 xvfb \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# Copy startup helper script
-COPY .devcontainer/start-desktop.sh /usr/local/bin/start-desktop.sh
-COPY .devcontainer/start-xpra.sh /usr/local/bin/start-xpra.sh
-RUN chmod +x /usr/local/bin/start-desktop.sh /usr/local/bin/start-xpra.sh
+# Desktop and browser-accessible VNC (noVNC)
+RUN apt update && \
+	apt install -y xfce4 xfce4-terminal x11vnc dbus-x11 python3 python3-pip git \
+		xauth x11-utils xfonts-base iproute2 && \
+	pip3 install --no-cache-dir websockify
 
-# Copy helper scripts and shell aliases into the image
-COPY .devcontainer/start-jalview.sh /usr/local/bin/start-jalview
-COPY .devcontainer/start-firefox.sh /usr/local/bin/start-firefox
-COPY .devcontainer/xpra_aliases.sh /etc/profile.d/xpra_aliases.sh
-RUN chmod +x /usr/local/bin/start-jalview /usr/local/bin/start-firefox /usr/local/bin/start-desktop.sh
-RUN chmod 644 /etc/profile.d/xpra_aliases.sh
+RUN git clone https://github.com/novnc/noVNC.git /opt/noVNC
+RUN git clone https://github.com/novnc/websockify /opt/noVNC/utils/websockify
+
+# Copy helper scripts into the image and make them executable
+COPY .devcontainer/bin/*.sh /usr/local/bin/
+RUN chmod +x /usr/local/bin/*.sh
 # Copy landing page into image so it can be served without relying on build context at runtime
 COPY .devcontainer/landing /opt/landing
-# Copy landing page into image so it can be served without relying on build context at runtime
-COPY .devcontainer/start-landing.sh /usr/local/bin/start-landing.sh
-RUN chmod +x /usr/local/bin/start-landing.sh
-# Copy wrapper scripts and make them executable
-COPY .devcontainer/wrappers/start-beast.sh /usr/local/bin/start-beast.sh
-COPY .devcontainer/wrappers/firefox-wrapper.sh /usr/local/bin/firefox
-RUN chmod +x /usr/local/bin/start-beast.sh /usr/local/bin/firefox
 # Copy XPRA configuration file
-COPY .devcontainer/xpra.conf /etc/xpra/xpra.conf
-
+COPY .devcontainer/conf/xpra.conf /etc/xpra/xpra.conf
+# Copy XPRA aliases to profile.d and change permissions
+COPY .devcontainer/conf/xpra_aliases.sh /etc/profile.d/xpra_aliases.sh
+RUN chmod 644 /etc/profile.d/xpra_aliases.sh
 # Remove annoying message Xsession: unable to launch "true" X session --- "true" not found; falling back to default session.
 # Patch Xsession.d script to replace buggy command -v line with /usr/bin/which. See https://bugs.launchpad.net/ubuntu/+source/xorg/+bug/1983185
-COPY .devcontainer/20x11-common_process-args /etc/X11/Xsession.d/20x11-common_process-args
+COPY .devcontainer/conf/20x11-common_process-args /etc/X11/Xsession.d/20x11-common_process-args
+
+# Remove screensaver packages to avoid interference
+#RUN apt-get update && apt-get remove -y light-locker xfce4-screensaver && \
+#    apt-get autoremove -y
 
 # Default command
 WORKDIR $HOME
