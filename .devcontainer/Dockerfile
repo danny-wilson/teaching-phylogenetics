@@ -8,18 +8,18 @@ FROM ${UBUNTU} AS base
 ENV DEBIAN_FRONTEND=noninteractive
 ENV TZ=UTC
 
-# ###################################
-# # Install runtime packages (single RUN)
-# # - --no-install-recommends to slim deps
-# # - combine all apt ops, then clean lists
-# ###################################
-# RUN apt-get update \
-#  && apt-get install -y --no-install-recommends \
-#       ca-certificates gnupg2 wget curl apt-transport-https \
-#       xpra xpra-x11 xvfb xfce4-terminal xterm x11-xserver-utils \
-#       x11vnc python3 python3-pip tini \
-#  && pip3 install --no-cache-dir websockify \
-#  && rm -rf /var/lib/apt/lists/*
+###################################
+# Install runtime packages (single RUN)
+# - --no-install-recommends to slim deps
+# - combine all apt ops, then clean lists
+###################################
+RUN apt-get update \
+ && apt-get install -y --no-install-recommends \
+      ca-certificates gnupg2 wget curl apt-transport-https \
+      xpra xpra-x11 xvfb xfce4-terminal xterm x11-xserver-utils \
+      x11vnc python3 python3-pip tini \
+ && pip3 install --no-cache-dir websockify \
+ && rm -rf /var/lib/apt/lists/*
 
 # ###################################
 # # Optional: add xpra repo if you need the upstream packages
