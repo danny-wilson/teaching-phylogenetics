@@ -44,14 +44,14 @@ RUN groupadd --gid ${USER_GID} ${USERNAME} \
 USER ${USERNAME}
 ENV HOME=/home/${USERNAME}
 
-# ###################################
-# # Copy only required runtime files and mark executable
-# ###################################
-# # (keep this minimal; copy helper scripts and xpra conf)
-# COPY --chown=${USERNAME}:${USERNAME} ./bin/*.sh /usr/local/bin/
-# COPY --chown=${USERNAME}:${USERNAME} ./conf/xpra.conf /etc/xpra/xpra.conf
-# COPY --chown=${USERNAME}:${USERNAME} ./conf/xpra_aliases.sh /etc/profile.d/xpra_aliases.sh
-# RUN chmod +x /usr/local/bin/*.sh
+###################################
+# Copy only required runtime files and mark executable
+###################################
+# (keep this minimal; copy helper scripts and xpra conf)
+COPY --chown=${USERNAME}:${USERNAME} ./bin/*.sh /usr/local/bin/
+COPY --chown=${USERNAME}:${USERNAME} ./conf/xpra.conf /etc/xpra/xpra.conf
+COPY --chown=${USERNAME}:${USERNAME} ./conf/xpra_aliases.sh /etc/profile.d/xpra_aliases.sh
+RUN chmod +x /usr/local/bin/*.sh
 
 # WORKDIR ${HOME}
 # ENTRYPOINT ["/usr/bin/tini", "--"]
