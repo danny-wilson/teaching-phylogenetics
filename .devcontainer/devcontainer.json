@@ -1,8 +1,12 @@
 {
   "name": "Teaching Phylogenetics Codespace",
   "build": {
-    "dockerfile": "../Dockerfile"
-  },
+    "dockerfile": "Dockerfile",
+    "context": "."
+    "args": {
+      "BUILDKIT_INLINE_CACHE": "0"
+    }
+},
   "remoteUser": "student",
   "workspaceFolder": "/home/student/work",
   "mounts": ["source=teaching_phylo_work,target=/home/student/work,type=volume"],
