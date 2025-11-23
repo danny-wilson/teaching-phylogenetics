@@ -1,25 +1,9 @@
 #!/bin/bash
 set -e
 
-USER=student
-if ! id -u $USER >/dev/null 2>&1; then
-  useradd -m -s /bin/bash $USER
-fi
-
-# Ensure XDG runtime dir exists for the student (some apps expect it)
-mkdir -p /run/user/1000
-chown $USER:$USER /run/user/1000
-chmod 700 /run/user/1000
-
-# # Xvfb + .Xauthority setup
+# Xvfb setup
 export DISPLAY=:1
-export XAUTHORITY=/home/$USER/.Xauthority
-
-# Ensure Xauthority exists and is owned correctly
-if [ ! -f "$XAUTHORITY" ]; then
-  touch "$XAUTHORITY"
-  chown $USER:$USER "$XAUTHORITY"
-fi
+USER=student
 
 USE_XVFB=false
 USE_NOVNC=false

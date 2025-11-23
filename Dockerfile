@@ -125,14 +125,27 @@ RUN groupadd --gid ${USER_GID} ${USERNAME} \
  && echo "${USERNAME} ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/${USERNAME} \
  && chmod 0440 /etc/sudoers.d/${USERNAME}
 
-# Ensure workspace directory exists with correct permissions
+# Ensure XDG runtime dir exists for the student (some apps expect it)
+ARG XDG_RUNTIME_DIR=/run/user/${USER_GID}
+RUN mkdir -p ${XDG_RUNTIME_DIR} && \
+  chown $USER:$USER ${XDG_RUNTIME_DIR} && \
+  chmod 700 ${XDG_RUNTIME_DIR}
+
+# Switch to non-root user
 USER ${USERNAME}
 ENV HOME=/home/${USERNAME}
+
+# Ensure workspace directory exists
 RUN mkdir -p ${HOME}/work
+
+# Ensure Xauthority exists
+ARG XAUTHORITY=/home/${USERNAME}/.Xauthority
+RUN touch ${XAUTHORITY}
 
 # Default command
 WORKDIR $HOME
 ENTRYPOINT ["/usr/bin/tini", "--"]
 
 # Start the desktop+xpra services on container run and keep container alive
+USER root
 CMD ["/usr/local/bin/entry.sh"]

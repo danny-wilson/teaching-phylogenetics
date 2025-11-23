@@ -2,9 +2,6 @@
 set -e
 
 USER=student
-if ! id -u $USER >/dev/null 2>&1; then
-  useradd -m -s /bin/bash $USER
-fi
 
 # Start per-app xpra HTML5 sessions on distinct ports so each app can be opened
 # in its own Chrome tab. Ports: 14500=terminal, 14501=jalview, 14502=beast

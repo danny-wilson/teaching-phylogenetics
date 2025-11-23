@@ -5,7 +5,7 @@
 set -e
 
 START=/usr/local/bin/start-desktop.sh
-LOG=/var/log/start-desktop.log
+LOG=/tmp/start-desktop.log
 
 # If stdout is a TTY, run in foreground so Ctrl+C works
 if [ -t 1 ]; then
