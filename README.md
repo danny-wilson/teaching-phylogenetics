@@ -33,7 +33,7 @@ code ~/Documents/GitHub/teaching-phylogenetics
 To run locally, launch Docker Desktop and create a local working directory, for example
 ```
 WDIR=~/Downloads/phylogenetics-in-practice
-mkdir $WDIR
+mkdir -p $WDIR
 ```
 
 Navigate to the Dockerfile-containing directory and build the container as

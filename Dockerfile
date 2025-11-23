@@ -6,8 +6,6 @@ LABEL version="November 2025"
 
 # Disable prompts
 ENV DEBIAN_FRONTEND=noninteractive
-# Set home directory
-ENV HOME /home
 
 # Install standard packages, avoiding dialogue requesting locale
 RUN apt-get update && apt-get upgrade -y
@@ -115,6 +113,22 @@ COPY .devcontainer/conf/20x11-common_process-args /etc/X11/Xsession.d/20x11-comm
 # Remove screensaver packages to avoid interference
 #RUN apt-get update && apt-get remove -y light-locker xfce4-screensaver && \
 #    apt-get autoremove -y
+
+# Set up user
+ARG USERNAME=student
+ARG USER_UID=1000
+ARG USER_GID=1000
+
+RUN groupadd --gid ${USER_GID} ${USERNAME} \
+ && useradd --uid ${USER_UID} --gid ${USER_GID} -m -s /bin/bash ${USERNAME} \
+ && apt-get update && apt-get install -y sudo \
+ && echo "${USERNAME} ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/${USERNAME} \
+ && chmod 0440 /etc/sudoers.d/${USERNAME}
+
+# Ensure workspace directory exists with correct permissions
+USER ${USERNAME}
+ENV HOME=/home/${USERNAME}
+RUN mkdir -p ${HOME}/work
 
 # Default command
 WORKDIR $HOME

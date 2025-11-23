@@ -3,9 +3,9 @@
   "build": {
     "dockerfile": "../Dockerfile"
   },
-  "workspaceFolder": "/home/work",
-  "mounts": ["source=teaching_phylo_work,target=/home/work,type=volume"],
   "remoteUser": "student",
+  "workspaceFolder": "/home/student/work",
+  "mounts": ["source=teaching_phylo_work,target=/home/student/work,type=volume"],
   "forwardPorts": [6080, 14500, 14501, 14502, 14503, 14600],
   "customizations": {
     "vscode": {
