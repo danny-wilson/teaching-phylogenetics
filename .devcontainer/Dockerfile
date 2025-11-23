@@ -97,18 +97,18 @@ RUN git clone https://github.com/novnc/noVNC.git /opt/noVNC
 RUN git clone https://github.com/novnc/websockify /opt/noVNC/utils/websockify
 
 # Copy helper scripts into the image and make them executable
-COPY .devcontainer/bin/*.sh /usr/local/bin/
+COPY ./bin/*.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/*.sh
 # Copy landing page into image so it can be served without relying on build context at runtime
-COPY .devcontainer/landing /opt/landing
+COPY ./landing /opt/landing
 # Copy XPRA configuration file
-COPY .devcontainer/conf/xpra.conf /etc/xpra/xpra.conf
+COPY ./conf/xpra.conf /etc/xpra/xpra.conf
 # Copy XPRA aliases to profile.d and change permissions
-COPY .devcontainer/conf/xpra_aliases.sh /etc/profile.d/xpra_aliases.sh
+COPY ./conf/xpra_aliases.sh /etc/profile.d/xpra_aliases.sh
 RUN chmod 644 /etc/profile.d/xpra_aliases.sh
 # Remove annoying message Xsession: unable to launch "true" X session --- "true" not found; falling back to default session.
 # Patch Xsession.d script to replace buggy command -v line with /usr/bin/which. See https://bugs.launchpad.net/ubuntu/+source/xorg/+bug/1983185
-COPY .devcontainer/conf/20x11-common_process-args /etc/X11/Xsession.d/20x11-common_process-args
+COPY ./conf/20x11-common_process-args /etc/X11/Xsession.d/20x11-common_process-args
 
 # Remove screensaver packages to avoid interference
 #RUN apt-get update && apt-get remove -y light-locker xfce4-screensaver && \

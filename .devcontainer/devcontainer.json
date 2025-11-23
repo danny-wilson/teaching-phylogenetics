@@ -2,7 +2,7 @@
   "name": "Teaching Phylogenetics Codespace",
   "build": {
     "dockerfile": "Dockerfile",
-    "context": "."
+    "context": ".",
     "args": {
       "BUILDKIT_INLINE_CACHE": "0"
     }
