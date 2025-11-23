@@ -11,6 +11,7 @@
   "workspaceFolder": "/home/student/work",
   "mounts": ["source=teaching_phylo_work,target=/home/student/work,type=volume"],
   "forwardPorts": [6080, 14500, 14501, 14502, 14503, 14504, 14505, 14506, 14507, 14508, 14600],
+  "overrideCommand": false,
   "customizations": {
     "vscode": {
       "extensions": [
