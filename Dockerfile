@@ -11,7 +11,7 @@ ENV HOME /home
 
 # Install standard packages, avoiding dialogue requesting locale
 RUN apt-get update && apt-get upgrade -y
-RUN DEBIAN_FRONTEND=noninteractive apt-get install -y tzdata
+RUN apt-get install -y tzdata
 RUN apt-get install -y build-essential x11-apps default-jre wget curl git xterm r-base r-cran-phangorn jalview tini
 
 # Install Firefox from Mozilla's repository to get the latest version
@@ -119,5 +119,6 @@ COPY .devcontainer/conf/20x11-common_process-args /etc/X11/Xsession.d/20x11-comm
 # Default command
 WORKDIR $HOME
 ENTRYPOINT ["/usr/bin/tini", "--"]
+
 # Start the desktop+xpra services on container run and keep container alive
-CMD ["/bin/bash", "-c", "/usr/local/bin/start-desktop.sh && exec tail -f /dev/null"]
+CMD ["/usr/local/bin/entry.sh"]

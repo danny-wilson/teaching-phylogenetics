@@ -3,7 +3,28 @@
   "build": {
     "dockerfile": "../Dockerfile"
   },
+  "workspaceFolder": "/home/work",
+  "mounts": ["source=teaching_phylo_work,target=/home/work,type=volume"],
+  "remoteUser": "student",
   "forwardPorts": [6080, 14500, 14501, 14502, 14503, 14600],
-  "postStartCommand": "/usr/local/bin/start-desktop.sh",
-  "remoteUser": "root"
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "cweijan.vscode-office",
+        "donjayamanne.githistory",
+        "ikuyadeu.r",
+        "ms-python.python", 
+        "ms-toolsai.jupyter", 
+        "ms-toolsai.jupyter-keymap", 
+        "ms-toolsai.jupyter-renderers", 
+        "quarto.quarto",
+        "REditorSupport.r", 
+        "REditorSupport.r-syntax"
+      ],
+      "settings": {
+        "jupyter.defaultKernel": "Python3",
+        "jupyter.jupyterServerType": "local"
+      }
+    }
+  }
 }
