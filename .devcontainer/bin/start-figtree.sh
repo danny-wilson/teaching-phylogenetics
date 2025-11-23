@@ -1,2 +1,2 @@
 #!/bin/bash
-exec /usr/bin/figtree -java "$@"
+exec /usr/bin/figtree

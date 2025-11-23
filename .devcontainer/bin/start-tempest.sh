@@ -1,2 +1,2 @@
 #!/bin/bash
-exec /usr/bin/tempest -java "$@"
+exec /usr/bin/tempest

@@ -1,2 +1,2 @@
 #!/bin/bash
-exec /usr/bin/tracer -java "$@"
+exec /usr/bin/tracer

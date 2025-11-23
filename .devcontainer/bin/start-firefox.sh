@@ -1,3 +1,3 @@
 #!/bin/bash
-# Simple helper to start Firefox in background under xpra
-nohup firefox --fullscreen >/dev/null 2>&1 &
+# Careful about syntax:
+/usr/bin/firefox >/tmp/firefox.log 2>&1

@@ -58,8 +58,16 @@ RUN mv /tmp/ClonalFrameML/src/ClonalFrameML /usr/bin/
 WORKDIR /tmp
 
 # Mafft
-RUN curl -O https://mafft.cbrc.jp/alignment/software/mafft_7.450-1_amd64.deb
-#RUN dpkg -i mafft_7.450-1_amd64.deb
+ARG TARGETARCH
+RUN set -eux; \
+    if [ "x$TARGETARCH" = "xamd64" ]; then \
+      curl -fsSL -O https://mafft.cbrc.jp/alignment/software/mafft_7.450-1_amd64.deb; \
+      dpkg -i mafft_7.450-1_amd64.deb || (apt-get update && apt-get -f install -y); \
+      rm -f mafft_7.450-1_amd64.deb; \
+    else \
+      echo "Warning: mafft unsupported on architecture: $TARGETARCH - skipping installation"; \
+    fi \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # TempEst
 RUN wget https://github.com/beast-dev/Tempest/releases/download/v1.5.3/TempEst_v1.5.3.tgz
@@ -114,6 +122,9 @@ COPY ./conf/20x11-common_process-args /etc/X11/Xsession.d/20x11-common_process-a
 #RUN apt-get update && apt-get remove -y light-locker xfce4-screensaver && \
 #    apt-get autoremove -y
 
+# Allow any user to start Xvfb :1
+RUN mkdir -p /tmp/.X11-unix && chmod 1777 /tmp/.X11-unix
+
 # Set up user
 ARG USERNAME=student
 ARG USER_UID=1000
@@ -128,8 +139,13 @@ RUN groupadd --gid ${USER_GID} ${USERNAME} \
 # Ensure XDG runtime dir exists for the student (some apps expect it)
 ARG XDG_RUNTIME_DIR=/run/user/${USER_GID}
 RUN mkdir -p ${XDG_RUNTIME_DIR} && \
-  chown $USER:$USER ${XDG_RUNTIME_DIR} && \
+  chown ${USERNAME}:${USERNAME} ${XDG_RUNTIME_DIR} && \
   chmod 700 ${XDG_RUNTIME_DIR}
+
+# Ensure Xpra run dir exists
+#RUN mkdir -p ${RUN_XPRA_DIR} && \
+#  chown ${USERNAME}:${USERNAME} ${RUN_XPRA_DIR} && \
+#  chmod 700 ${RUN_XPRA_DIR}
 
 # Switch to non-root user
 USER ${USERNAME}
@@ -147,5 +163,5 @@ WORKDIR $HOME
 ENTRYPOINT ["/usr/bin/tini", "--"]
 
 # Start the desktop+xpra services on container run and keep container alive
-USER root
+#USER root
 CMD ["/usr/local/bin/entry.sh"]

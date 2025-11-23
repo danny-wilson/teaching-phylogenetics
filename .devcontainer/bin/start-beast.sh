@@ -1,2 +1,2 @@
 #!/bin/bash
-exec /usr/bin/beast -java "$@"
+exec /usr/bin/beast

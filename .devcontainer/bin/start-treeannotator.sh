@@ -1,2 +1,2 @@
 #!/bin/bash
-exec /usr/bin/treeannotator -java "$@"
+exec /usr/bin/treeannotator
