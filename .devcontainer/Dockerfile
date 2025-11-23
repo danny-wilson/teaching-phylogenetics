@@ -53,7 +53,7 @@ COPY --chown=${USERNAME}:${USERNAME} ./conf/xpra.conf /etc/xpra/xpra.conf
 COPY --chown=${USERNAME}:${USERNAME} ./conf/xpra_aliases.sh /etc/profile.d/xpra_aliases.sh
 RUN chmod +x /usr/local/bin/*.sh
 
-# WORKDIR ${HOME}
+WORKDIR ${HOME}
 # ENTRYPOINT ["/usr/bin/tini", "--"]
 # CMD ["/usr/local/bin/entry.sh"]
 
