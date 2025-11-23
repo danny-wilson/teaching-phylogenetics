@@ -92,7 +92,7 @@ RUN chmod +x /usr/local/bin/*.sh
 
 WORKDIR ${HOME}
 ENTRYPOINT ["/usr/bin/tini", "--"]
-# CMD ["/usr/local/bin/entry.sh"]
+CMD ["/usr/local/bin/entry.sh"]
 
 # ###################################
 # # Dev target (only when you ask for it: `docker build --target=dev .`)
