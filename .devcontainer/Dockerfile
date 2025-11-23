@@ -14,12 +14,14 @@ ENV TZ=UTC
 # - combine all apt ops, then clean lists
 ###################################
 RUN apt-get update \
- && apt-get install -y --no-install-recommends \
-      ca-certificates gnupg2 wget curl apt-transport-https \
-      xpra xpra-x11 xvfb xfce4-terminal xterm x11-xserver-utils \
-      x11vnc python3 python3-pip tini \
- && pip3 install --no-cache-dir websockify \
- && rm -rf /var/lib/apt/lists/*
+  && apt-get install -y --no-install-recommends \
+    tzdata \
+    build-essential x11-apps default-jre wget curl git xterm tini \
+    software-properties-common gnupg ca-certificates \
+    xfce4 xfce4-terminal x11vnc dbus-x11 python3 python3-pip git \
+	xauth x11-utils xfonts-base iproute2 \
+  && pip3 install --no-cache-dir websockify \
+  && rm -rf /var/lib/apt/lists/*
 
 # ###################################
 # # Optional: add xpra repo if you need the upstream packages
