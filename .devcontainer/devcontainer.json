@@ -26,8 +26,5 @@
       }
     }
   },
-  "postCreateCommand": [
-    // Copy practical directory only if not already present
-    "[ -d /home/student/work/practical ] || cp -r /workspaces/teaching-phylogenetics/practical /home/student/work/"
-  ]
+  "postCreateCommand": "./.devcontainer/post-create.sh"
 }

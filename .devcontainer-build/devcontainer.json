@@ -6,7 +6,7 @@
     "args": {
       "BUILDKIT_INLINE_CACHE": "0"
     }
-},
+  },
   "remoteUser": "student",
   "workspaceFolder": "/home/student/work",
   "mounts": ["source=teaching_phylo_work,target=/home/student/work,type=volume"],
@@ -32,8 +32,5 @@
       }
     }
   },
-  "postCreateCommand": [
-    // Copy practical directory only if not already present
-    "[ -d /home/student/work/practical ] || cp -r /workspaces/teaching-phylogenetics/practical /home/student/work/"
-  ]
+  "postCreateCommand": "./.devcontainer-build/post-create.sh"
 }
