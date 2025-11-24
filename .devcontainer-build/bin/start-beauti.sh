@@ -1,2 +1,2 @@
 #!/bin/bash
-exec /usr/bin/beauti
+exec /usr/local/bin/beauti

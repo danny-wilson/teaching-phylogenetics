@@ -1,2 +1,2 @@
 #!/bin/bash
-exec /usr/bin/tracer
+exec /usr/local/bin/tracer

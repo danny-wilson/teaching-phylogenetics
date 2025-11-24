@@ -1,2 +1,2 @@
 #!/bin/bash
-exec /usr/bin/tempest
+exec /usr/local/bin/tempest

@@ -1,2 +1,2 @@
 #!/bin/bash
-exec /usr/bin/figtree
+exec /usr/local/bin/figtree

@@ -1,2 +1,2 @@
 #!/bin/bash
-exec /usr/bin/beast
+exec /usr/local/bin/beast
