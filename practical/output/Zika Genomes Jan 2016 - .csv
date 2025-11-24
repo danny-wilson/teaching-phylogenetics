@@ -1,0 +1,32 @@
+Genbank accession,Name,Location,Isolated,Article,doi,Published,Host,Label,Year,Country,Continent,HostLatin,Host
+KU365777,BeH818995,Brazil,2015,Faria Science 352:345,10.1126/science.aaf5036,2016,,gi|975885964|gb|KU365777.1|,2015,Brazil,SAmerica,H.sapiens,Human
+KU365780,BeH815744,Brazil,2015,Faria Science 352:345,10.1126/science.aaf5036,2016,,gi|975885971|gb|KU365780.1|,2015,Brazil,SAmerica,H.sapiens,Human
+KU365779,BeH819966,Brazil,2015,Faria Science 352:345,10.1126/science.aaf5036,2016,,gi|975885969|gb|KU365779.1|,2015,Brazil,SAmerica,H.sapiens,Human
+KU365778,BeH819015,Brazil,2015,Faria Science 352:345,10.1126/science.aaf5036,2016,,gi|975885966|gb|KU365778.1|,2015,Brazil,SAmerica,H.sapiens,Human
+KU312312,Z1106033,Suriname,2015,Enfissi Lancet 387:227,10.1016/S0140-6736(16)00003-9,2016,,gi|973447404|gb|KU312312.1|,2015,Suriname,SAmerica,H.sapiens,Human
+KU321639,SPH2015,Sao Paolo,2015,Faria Science 352:345,10.1126/science.aaf5036,2016,,gi|969945756|gb|KU321639.1|,2015,Brazil,SAmerica,H.sapiens,Human
+KU527068,Natal RGN,"Bahia, Brazil",2016,Mlakar NEJM 374:951,10.1056/NEJMoa1600651,2016,,gi|982894594|gb|KU527068.1|,2016,Brazil,SAmerica,H.sapiens,Human
+KJ776791,H/PF/2013,French Polynesia,2013,Baronti Genome Announce 2:e00500,10.1128/genomeA.00500-14,2014,,gi|631250742|gb|KJ776791.1|,2013,FrPolynesia,Asia,H.sapiens,Human
+JN860885,FSS13025,Cambodia,2010,,,,,gi|380036385|gb|JN860885.1|,2010,Cambodia,Asia,H.sapiens,Human
+EU545988,,Micronesia,2007,,,,,gi|189092757|gb|EU545988.1|,2007,Micronesia,Asia,H.sapiens,Human
+HQ234499,,Malaysia,1996,,,,,gi|345132142|gb|HQ234499.1|,1996,Malaysia,Asia,A.aegypti,Mosquito
+HQ234500,IbH 30656,Nigeria,1968,,,,,gi|345132144|gb|HQ234500.1|,1968,Nigeria,Africa,H.sapiens,Human
+LC002520,MR766-NIID,Uganda,1947,,,,"see also NC_012532.1, AY632535.2",gi|685052337|dbj|LC002520.1|,1947,Uganda,Africa,Simiiforme,Monkey
+KF993678,,Thailand,2013,,,,,gi|591399175|gb|KF993678.1|,2013,Thailand,Asia,H.sapiens,Human
+KF268950,,Central African Republic,1976-1980,Berthet Vector Borne Zoonotic Dis 14:862,10.1089/vbz.2014.1607,2014,,gi|572167488|gb|KF268950.1|,1978,CAR,Africa,A.africanus,Mosquito
+KF268948,,Central African Republic,1976-1980,Berthet Vector Borne Zoonotic Dis 14:862,10.1089/vbz.2014.1607,2014,,gi|572167484|gb|KF268948.1|,1978,CAR,Africa,A.africanus,Mosquito
+KF268949,,Central African Republic,1976-1980,Berthet Vector Borne Zoonotic Dis 14:862,10.1089/vbz.2014.1607,2014,,gi|572167486|gb|KF268949.1|,1978,CAR,Africa,A.opok,Mosquito
+AY632535,MR766,Uganda,,,,,Sentinel monkey,gi|226374362|gb|AY632535.2|,1970,Uganda,Africa,Simiiforme,Monkey
+DQ859059,MR 766,Uganda,,,,,,gi|146411780|gb|DQ859059.1|,1970,Uganda,Africa,H.sapiens,Human
+HQ234501,,Senegal,1984,,,,,gi|345132146|gb|HQ234501.1|,1984,Senegal,Africa,A.africanus,Mosquito
+DQ859064.1,Spondweni virus strain SM-6 V-1,South Africa,,,,,,gi|258561568|gb|DQ859064.1|,1970,RSA,Africa,Aedes,Mosquito
+KF383115.1,ArB 1362,Central African Republic,1968,Faye PLoS NTD 8:e2636,10.1371/journal.pntd.0002636,2014,Aedes africanus,gi|592746957|gb|KF383115.1|,1968,CAR,Africa,A.africanus,Mosquito
+KF383116.1,ArD 7117,Senegal,1968,Faye PLoS NTD 8:e2636,10.1371/journal.pntd.0002636,2014,Aedes luteocephalus,gi|592746959|gb|KF383116.1|,1968,Senegal,Africa,A.luteocephalus,Mosquito
+KF383117.1,ArD 128000,Senegal,1997,Faye PLoS NTD 8:e2636,10.1371/journal.pntd.0002636,2014,Aedes luteocephalus,gi|592746961|gb|KF383117.1|,1997,Senegal,Africa,A.luteocephalus,Mosquito
+KF383118.1,ArD 157995,Senegal,2001,Faye PLoS NTD 8:e2636,10.1371/journal.pntd.0002636,2014,Aedes dalzieli,gi|592746963|gb|KF383118.1|,2001,Senegal,Africa,A.dalzieli,Mosquito
+KF383119.1,ArD 158084,Senegal,2001,Faye PLoS NTD 8:e2636,10.1371/journal.pntd.0002636,2014,Aedes dalzieli,gi|592746965|gb|KF383119.1|,2001,Senegal,Africa,A.dalzieli,Mosquito
+KF383120.1,ArD 142623,Senegal,2000,Faye PLoS NTD 8:e2636,10.1371/journal.pntd.0002636,2014,Anopheles coustani,gi|592746967|gb|KF383120.1|,2000,Senegal,Africa,A.coustani,Mosquito
+KU509998,1225,Haiti,2014,,,,,gi|983657312|gb|KU509998.1|,2014,Haiti,SAmerica,H.sapiens,Human
+KU501215.1,PRVABC59,Puerto Rico,2015,Lanciotti EID 22:933,10.3201/eid2205.160065,2016,DOI: 10.3201/eid2205.160065,gi|984874581|gb|KU501215.1|,2015,PuertoRico,SAmerica,H.sapiens,Human
+KU729217,BeH823339,Brazil,2015,Faria Science 352:345,10.1126/science.aaf5036,2016,Deceased newborn microcephaly,gi|1002394024|gb|KU729217.2|,2015,Brazil,SAmerica,H.sapiens,Human
+KU729218,BeH818305,Brazil,2015,Faria Science 352:345,10.1126/science.aaf5036,2016,Decreased adult male,gi|998491032|gb|KU729218.1|,2015,Brazil,SAmerica,H.sapiens,Human

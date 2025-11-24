@@ -1,0 +1,84 @@
+ClonalFrameML v1.13
+kappa = 4.6
+prior_mean = 0.1 0.001 0.1 0.015
+prior_sd = 0.1 0.001 0.1 0.015
+Finished reading in control file.
+
+Read 31 sequences of length 10836 sites from genomes.relab.fasta
+IMPUTATION AND RECONSTRUCTION OF ANCESTRAL STATES:
+Analysing 4362 sites
+Empirical nucleotide frequencies:   A 27.5%   C 22%   G 29.2%   T 21.4%
+Maximum log-likelihood for imputation and ancestral state reconstruction = -38450.8
+Wrote imputed and reconstructed ancestral states to zika.ML_sequence.fasta
+Wrote position cross-reference file to zika.position_cross_reference.txt
+BRANCH LENGTH CORRECTION/RECOMBINATION ANALYSIS:
+Analysing 10836 sites
+Empirical nucleotide frequencies:   A 27.5%   C 22%   G 29.2%   T 21.4%
+Beginning branch optimization. Key to parameters (and constraints):
+B   uncorrected branch length
+L   maximum unnormalized log-posterior per branch
+P   contribution of the prior to L
+R   R/theta per branch                                       (> 0)
+I   mean DNA import length per branch                        (> 0)
+D   divergence of DNA imported by recombination              (> 0)
+M   expected number of mutations per branch                  (> 0)
+ L = -35777 P = 189.619 R = 0.00750805 I = 475.972 D = 0.0451236 in 3.25798 s and 18 evaluations
+ Posterior alphas: R = 49.0518 I = 50.2843 D = 1035.44
+ ClonalFrameML log-likelihood ratio of 618.496 indicates evidence for recombination
+Branch KU365780.1 B = 0.000276804 M = 0.000275102
+Branch KU312312.1 B = 0.00129175 M = 0.00128363
+Branch KU365778.1 B = 0.00119948 M = 0.001192
+Branch KU501215.1 B = 0.00119948 M = 0.00119202
+Branch KU527068.1 B = 0.00175309 M = 0.001737
+Branch KJ776791.2 B = 0.00046134 M = 0.000458483
+Branch KU729218.1 B = 0.00138402 M = 0.00137518
+Branch KU729217.2 B = 0.00166082 M = 0.00164544
+Branch KU321639.1 B = 0.00046134 M = 0.000458486
+Branch KU509998.3 B = 0.000184536 M = 0.000183412
+Branch KF993678.1 B = 0.00553608 M = 0.00547841
+Branch JN860885.1 B = 0.00618195 M = 0.0061279
+Branch EU545988.1 B = 0.00701236 M = 0.00594531
+Branch HQ234499.1 B = 0.0104263 M = 0.0103432
+Branch HQ234500.1 B = 0.0149474 M = 0.01321
+Branch HQ234501.1 B = 0.00931906 M = 0.00760576
+Branch KF383116.1 B = 0.00405979 M = 0.00259748
+Branch KF383117.1 B = 0.0186381 M = 0.0106706
+Branch LC002520.1 B = 0.000738144 M = 0.00073327
+Branch KF383119.1 B = 0.000369072 M = 0.000366794
+Branch AY632535.2 B = 0.00156856 M = 0.000903335
+Branch KF383118.1 B = 0.0138402 M = 0.000755455
+Branch KF268950.1 B = 0.00046134 M = 0.00037327
+Branch KF268949.1 B = 0.0069201 M = 0.00683638
+Branch KF383115.1 B = 0.0143938 M = 0.0120523
+Branch DQ859059.1 B = 0.0243587 M = 0.0220538
+Branch KF383120.1 B = 0.0580365 M = 0.104538
+Branch DQ859064.1 B = 0.257335 M = 0.269908
+Branch NODE_32 B = 0.00046134 M = 0.000453383
+Branch NODE_33 B = 0.000922679 M = 0.000916928
+Branch NODE_34 B = 0.00147629 M = 0.000828561
+Branch NODE_35 B = 0.000369072 M = 0.000366792
+Branch NODE_36 B = 0.000276804 M = 0.000275102
+Branch NODE_37 B = 0.000645876 M = 0.000641868
+Branch NODE_38 B = 0.000369072 M = 0.000366794
+Branch NODE_41 B = 0.000738144 M = 0.000733561
+Branch NODE_42 B = 0.00498247 M = 0.00494287
+Branch NODE_43 B = 0.00286031 M = 0.00284111
+Branch NODE_44 B = 0.00322938 M = 0.00320515
+Branch NODE_45 B = 0.0226979 M = 0.0218148
+Branch NODE_46 B = 0.0631113 M = 0.0659597
+Branch NODE_47 B = 0.00802731 M = 0.00794786
+Branch NODE_48 B = 0.00276804 M = 0.00262817
+Branch NODE_49 B = 0.00202989 M = 0.000464853
+Branch NODE_50 B = 0.0115335 M = 0.011412
+Branch NODE_51 B = 0.0199299 M = 0.0190153
+Branch NODE_52 B = 0.0095036 M = 0.00942481
+Branch NODE_53 B = 0.00682783 M = 0.00676777
+Branch NODE_54 B = 0.00664329 M = 0.00658935
+Branch NODE_55 B = 0.00184536 M = 0.00181404
+Branch NODE_56 B = 0.00608968 M = 0.0060368
+Branch NODE_57 B = 0.0143938 M = 0.0139297
+Branch NODE_58 B = 0.00959587 M = 0.0094154
+Branch NODE_59 B = 0.0362613 M = 0.00166467
+Wrote inferred importation status to zika.importation_status.txt
+Wrote processed tree to zika.labelled_tree.newick
+All done in 0.0564493 minutes.
