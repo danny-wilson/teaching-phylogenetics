@@ -19,14 +19,21 @@ RUN apt-get update \
     build-essential x11-apps default-jre wget curl git xterm tini \
     software-properties-common gnupg ca-certificates \
     xfce4 xfce4-terminal x11vnc dbus-x11 python3 python3-pip \
-	xauth x11-utils xfonts-base iproute2 \
+	  xauth x11-utils xfonts-base iproute2 \
     apt-transport-https x11-xserver-utils xserver-xorg-video-dummy \
     r-base r-cran-phangorn jalview unzip \
-  && pip3 install --no-cache-dir websockify \
-  && rm -rf /var/lib/apt/lists/*
+    r-base-dev gfortran \
+    libxml2-dev libcurl4-openssl-dev libssl-dev \
+    zlib1g-dev libbz2-dev liblzma-dev libzmq3-dev pandoc \
+  && pip3 install --no-cache-dir jupyterlab websockify \
+  && rm -rf /var/lib/apt/lists/* \
+  && rm -rf /root/.cache/pip
 
-# Need to add firefox
-# Need to add BEAST, Figtree, Phyml, ClonalFrameML, Mafft, TempEst, Tracer
+###################################
+# Install R packages and register IRkernel system-wide
+RUN R -e "install.packages(c('IRkernel','languageserver','rmarkdown','repr','IRdisplay','evaluate'), repos='https://cloud.r-project.org')" \
+  && R -e "IRkernel::installspec(user = FALSE)"
+###################################
 
 # Do I need these:
 #RUN git clone https://github.com/novnc/noVNC.git /opt/noVNC
