@@ -2,22 +2,22 @@
 set -e
 
 # Xvfb setup
-export DISPLAY=:1
+export DISPLAY=:100
 USER=student
 
 USE_XVFB=false
 USE_NOVNC=false
 if [ "$USE_XVFB" = true ]; then
   # Start virtual X server
-  Xvfb :1 -screen 0 1024x768x24 &
+  Xvfb :100 -screen 0 1024x768x24 &
   sleep 1
 
   # Start XFCE session as the student user
   dbus-launch --exit-with-session xfce4-session > /tmp/xfce4.log 2>&1 &
   sleep 1
 
-  # Start x11vnc on display :1 without password (Codespaces access control expected)
-  x11vnc -display :1 -nopw -forever -shared -rfbport 5901 > /tmp/x11vnc.log 2>&1 &
+  # Start x11vnc on display :100 without password (Codespaces access control expected)
+  x11vnc -display :100 -nopw -forever -shared -rfbport 5901 > /tmp/x11vnc.log 2>&1 &
   sleep 1
 
   if [ "$USE_NOVNC" = true ]; then
@@ -31,7 +31,7 @@ if [ "$USE_XVFB" = true ]; then
     sleep 1
   fi
 else
-  #xpra start :1 \
+  #xpra start :100 \
   #  --start-child="dbus-launch --exit-with-session startxfce4" \
   #  --bind-tcp=0.0.0.0:14500 \
   #  --html=on \
@@ -42,6 +42,8 @@ else
   #  --log-file=/tmp/xpra-desktop.log
   #env XDG_RUNTIME_DIR=/run/user/1000 xpra start :100 --start-child='dbus-launch --exit-with-session startxfce4' --bind-tcp=0.0.0.0:14500 --html=on --resize-display="1920x1080" --exit-with-children >/tmp/xpra-desktop.log 2>&1 &
   env XDG_RUNTIME_DIR=/run/user/1000 xpra start-desktop :100 --start=xfce4-session --bind-tcp=0.0.0.0:14500 --html=on --resize-display=yes >/tmp/xpra-desktop.log 2>&1 &
+  ##xfwm4 --compositor=off &
+  ##env XDG_RUNTIME_DIR=/run/user/1000 xpra start-desktop :100 --start='dbus-launch --exit-with-session startxfce4' --bind-tcp=0.0.0.0:14500 --html=on --resize-display=yes -d randr,keyboard,decode >/tmp/xpra-desktop.log 2>&1 &
   sleep 1
 fi
 

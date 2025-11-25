@@ -29,7 +29,7 @@ RUN apt-get update \
   && rm -rf /var/lib/apt/lists/* \
   && rm -rf /root/.cache/pip
 
-# Additions
+# Use tilix instead of xfce4-terminal
 #RUN apt-get update \
 #  && apt-get install -y --no-install-recommends \
 #    tilix \
@@ -41,11 +41,11 @@ RUN R -e "install.packages(c('IRkernel','languageserver','rmarkdown','repr','IRd
   && R -e "IRkernel::installspec(user = FALSE)"
 ###################################
 
-# Install Xorg/xdummy for XPRA to use in preference to Xvfb
-RUN apt-get update \
-  && apt-get install -y --no-install-recommends \
-    xserver-xorg-core xinit \
-  && rm -rf /var/lib/apt/lists/*
+# Install Xorg/xdummy for XPRA to use in preference to Xvfb (failed experiment)
+#RUN apt-get update \
+#  && apt-get install -y --no-install-recommends \
+#    xserver-xorg-core xinit \
+#  && rm -rf /var/lib/apt/lists/*
 
 ###################################
 # Install XPRA
@@ -130,8 +130,7 @@ RUN wget https://github.com/beast-dev/tracer/releases/download/v1.7.1/Tracer_v1.
   && chmod +x /usr/local/bin/tracer \
   && rm -rf /tmp/Tracer_v1.7.1 Tracer_v1.7.1.tgz
 
-# NoVNC
-# Do I need these:
+# Install noVNC
 RUN git clone --depth 1 https://github.com/novnc/noVNC.git /opt/noVNC
 RUN git clone --depth 1 https://github.com/novnc/websockify /opt/noVNC/utils/websockify
 
@@ -160,9 +159,10 @@ RUN chmod 644 /etc/profile.d/xpra_aliases.sh
 # Remove annoying message Xsession: unable to launch "true" X session --- "true" not found; falling back to default session.
 # Patch Xsession.d script to replace buggy command -v line with /usr/bin/which. See https://bugs.launchpad.net/ubuntu/+source/xorg/+bug/1983185
 COPY ./conf/20x11-common_process-args /etc/X11/Xsession.d/20x11-common_process-args
-# Copy xpra Xorg config and xpra conf override
-COPY ./conf/etc_xpra_xorg.conf /etc/xpra/xorg.conf
-COPY ./conf/55_server_x11.conf /etc/xpra/conf.d/55_server_x11.conf
+
+# Copy xpra Xorg config and xpra conf override to use Xorg/xdummy not Xvfb (failed experiment)
+#COPY ./conf/etc_xpra_xorg.conf /etc/xpra/xorg.conf
+#COPY ./conf/55_server_x11.conf /etc/xpra/conf.d/55_server_x11.conf
 
 # Ensure XDG runtime dir exists for the student (some apps expect it)
 ARG XDG_RUNTIME_DIR=/run/user/${USER_GID}
