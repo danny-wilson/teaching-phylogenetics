@@ -29,39 +29,32 @@ RUN apt-get update \
   && rm -rf /var/lib/apt/lists/* \
   && rm -rf /root/.cache/pip
 
+# Additions
+#RUN apt-get update \
+#  && apt-get install -y --no-install-recommends \
+#    tilix \
+#  && rm -rf /var/lib/apt/lists/*
+
 ###################################
 # Install R packages and register IRkernel system-wide
 RUN R -e "install.packages(c('IRkernel','languageserver','rmarkdown','repr','IRdisplay','evaluate'), repos='https://cloud.r-project.org')" \
   && R -e "IRkernel::installspec(user = FALSE)"
 ###################################
 
-# Do I need these:
-#RUN git clone https://github.com/novnc/noVNC.git /opt/noVNC
-#RUN git clone https://github.com/novnc/websockify /opt/noVNC/utils/websockify
+# Install Xorg/xdummy for XPRA to use in preference to Xvfb
+RUN apt-get update \
+  && apt-get install -y --no-install-recommends \
+    xserver-xorg-core xinit \
+  && rm -rf /var/lib/apt/lists/*
 
 ###################################
-#Optional: add xpra repo if you need the upstream packages
-#(uncomment if upstream repo required)
+# Install XPRA
 ###################################
 RUN wget -qO- https://xpra.org/gpg.asc | apt-key add - \
   && echo "deb https://xpra.org/ jammy main" >/etc/apt/sources.list.d/xpra.list \
   && apt-get update && apt-get install -y xpra xpra-x11 xvfb \
   && apt-get clean && rm -rf /var/lib/apt/lists/*
 #   && apt-get update && apt-get install -y --no-install-recommends xpra xpra-x11 xvfb \
-
-###################################
-# Copy configuration files
-###################################
-# Copy landing page into image so it can be served without relying on build context at runtime
-COPY ./landing /opt/landing
-# Copy XPRA configuration file
-COPY ./conf/xpra.conf /etc/xpra/xpra.conf
-# Copy XPRA aliases to profile.d and change permissions
-COPY ./conf/xpra_aliases.sh /etc/profile.d/xpra_aliases.sh
-RUN chmod 644 /etc/profile.d/xpra_aliases.sh
-# Remove annoying message Xsession: unable to launch "true" X session --- "true" not found; falling back to default session.
-# Patch Xsession.d script to replace buggy command -v line with /usr/bin/which. See https://bugs.launchpad.net/ubuntu/+source/xorg/+bug/1983185
-COPY ./conf/20x11-common_process-args /etc/X11/Xsession.d/20x11-common_process-args
 
 ###################################
 # Install apps
@@ -137,6 +130,11 @@ RUN wget https://github.com/beast-dev/tracer/releases/download/v1.7.1/Tracer_v1.
   && chmod +x /usr/local/bin/tracer \
   && rm -rf /tmp/Tracer_v1.7.1 Tracer_v1.7.1.tgz
 
+# NoVNC
+# Do I need these:
+RUN git clone --depth 1 https://github.com/novnc/noVNC.git /opt/noVNC
+RUN git clone --depth 1 https://github.com/novnc/websockify /opt/noVNC/utils/websockify
+
 ###################################
 # Create a non-root user and dirs in one layer
 ###################################
@@ -149,6 +147,23 @@ RUN groupadd --gid ${USER_GID} ${USERNAME} \
  && chown -R ${USERNAME}:${USERNAME} /home/${USERNAME} /run/user/${USER_GID} \
  && chmod 1777 /tmp/.X11-unix
 
+###################################
+# Copy configuration files
+###################################
+# Copy landing page into image so it can be served without relying on build context at runtime
+COPY ./landing /opt/landing
+# Copy XPRA configuration file
+COPY ./conf/xpra.conf /etc/xpra/xpra.conf
+# Copy XPRA aliases to profile.d and change permissions
+COPY ./conf/xpra_aliases.sh /etc/profile.d/xpra_aliases.sh
+RUN chmod 644 /etc/profile.d/xpra_aliases.sh
+# Remove annoying message Xsession: unable to launch "true" X session --- "true" not found; falling back to default session.
+# Patch Xsession.d script to replace buggy command -v line with /usr/bin/which. See https://bugs.launchpad.net/ubuntu/+source/xorg/+bug/1983185
+COPY ./conf/20x11-common_process-args /etc/X11/Xsession.d/20x11-common_process-args
+# Copy xpra Xorg config and xpra conf override
+COPY ./conf/etc_xpra_xorg.conf /etc/xpra/xorg.conf
+COPY ./conf/55_server_x11.conf /etc/xpra/conf.d/55_server_x11.conf
+
 # Ensure XDG runtime dir exists for the student (some apps expect it)
 ARG XDG_RUNTIME_DIR=/run/user/${USER_GID}
 RUN mkdir -p ${XDG_RUNTIME_DIR} && \
@@ -156,6 +171,9 @@ RUN mkdir -p ${XDG_RUNTIME_DIR} && \
   chmod 700 ${XDG_RUNTIME_DIR}
 # Allow any user to start Xvfb :1
 RUN mkdir -p /tmp/.X11-unix && chmod 1777 /tmp/.X11-unix
+# Also create...
+RUN mkdir -p /run/xpra && \
+  chmod 0755 /run/xpra
 
 ###################################
 # Switch to non-root user
